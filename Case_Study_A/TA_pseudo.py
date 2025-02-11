@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 
 import numpy as np
@@ -43,10 +44,10 @@ def thruster_allocation(tau: np.ndarray) -> np.ndarray:
     u_thrusters = K * F_star
 
     # Handeling negative values
-    for i in (0, 1):  # Assuming thruster 2 is a fixed-direction thruster
-        if u_thrusters[i] < 0:
-            u_thrusters[i] = -u_thrusters[i]
-            alpha[i] += np.pi  # reverse direction
+    # for i in (0, 1):  # Assuming thruster 2 is a fixed-direction thruster
+    #     if u_thrusters[i] < 0:
+    #         u_thrusters[i] = -u_thrusters[i]
+    #         alpha[i] += np.pi  # reverse direction
     # If we cannot have neegative thrusters for the fixed-direction thruster
     # if u_thrusters[2] < 0: u_thrusters[2] = 0
 
