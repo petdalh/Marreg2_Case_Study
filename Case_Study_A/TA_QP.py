@@ -49,7 +49,7 @@ def thruster_allocation(tau: np.ndarray) -> np.ndarray:
 
 
     # f* = B_W^† tau_cmd + (I - B_W^† B) f_d
-    Q_w = np.eye(5) - B_w_pinv @ B
+    Q_w = np.eye(5) - B_w_pinv @ B # test
     f_star = B_w_pinv @ tau + Q_w @ f_d
 
     # Parse out X1*, Y1*, X2*, Y2*, Y3*
