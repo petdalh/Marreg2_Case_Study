@@ -26,7 +26,7 @@ def thruster_allocation(tau: np.ndarray) -> np.ndarray:
     x3, y3 = (0.0,  0.0)   
 
     # Thruster gains (F_i = k_i * u_i)
-    K = np.array([1.0, 1.0, 1.0], dtype=float)
+    K = np.array([1.0, 1.0, 1.0], dtype=float) # test2
 
     # Weight matrix W (here just the identity)
     W = np.eye(5)
