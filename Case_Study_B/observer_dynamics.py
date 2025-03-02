@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from wrap import wrap
+
 
 M = np.array([[16.0, 0.0, 0.0], [0.0, 24.0, 0.53], [0.0, 0.53, 2.8]])
 
@@ -33,10 +35,10 @@ history = np.zeros((num_steps, 9))
 
 for i in range(num_steps):
     # Measurement noise
-    w = 0.1 * np.random.normal(size=(3, 1))
+    w = 0.00001 * np.random.normal(size=(3, 1))
 
     # Create R
-    psi = x[2, 0] + w[2, 0]
+    psi = wrap(x[2, 0] + w[2, 0])
     R = create_R(psi)
 
     A = np.block(
