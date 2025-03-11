@@ -49,9 +49,9 @@ for i in range(num_steps):
          ], [-L3 @ np.transpose(R),
              np.zeros((3, 3)), -np.linalg.inv(T_b)]])
 
-    B = np.vstack([-L1, R, -L3 @ np.transpose(R)])
+    b = np.vstack([-L1, R, -L3 @ np.transpose(R)])
 
-    x = (np.eye(9, 9) + dt * A) @ x + dt * B @ w
+    x = (np.eye(9, 9) + dt * A) @ x + dt * b @ w
 
     history[i, :] = x.flatten()
 
