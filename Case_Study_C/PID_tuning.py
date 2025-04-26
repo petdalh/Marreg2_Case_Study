@@ -4,12 +4,10 @@ from mpl_toolkits.mplot3d import Axes3D
 import time
 
 def is_stable(A):
-    """Check if all eigenvalues have negative real parts."""
     eigenvalues = np.linalg.eigvals(A)
     return np.all(np.real(eigenvalues) < 0)
 
 def construct_system_matrix(M_inv, D, Kp, Ki, Kd):
-    """Construct the system matrix A using the gains."""
     A = np.block([
         [np.zeros((3,3)), np.eye(3), np.zeros((3,3))],
         [np.zeros((3,3)), np.zeros((3,3)), np.eye(3)],
@@ -18,34 +16,12 @@ def construct_system_matrix(M_inv, D, Kp, Ki, Kd):
     return A
 
 def random_gain_matrix(min_val=1, max_val=10):
-    """Generate a 3x3 diagonal gain matrix with the same integer on all diagonal elements."""
     # Generate a single random integer
     value = np.random.randint(min_val, max_val+1)
     # Create a diagonal matrix with this same value on all diagonal elements
     return value * np.eye(3)
 
 def generate_stable_gains(M, D, max_iterations=10000, min_val=1, max_val=20):
-    """
-    Generate random K-gains until a stable system is found.
-    
-    Parameters:
-    -----------
-    M : array_like
-        Mass matrix
-    D : array_like
-        Damping matrix
-    max_iterations : int
-        Maximum number of iterations to try
-    min_val : int
-        Minimum integer value for gain elements
-    max_val : int
-        Maximum integer value for gain elements
-        
-    Returns:
-    --------
-    tuple
-        (Kp, Ki, Kd, eigenvalues, iterations, history)
-    """
     M_inv = np.linalg.inv(M)
     
     # Keep track of all attempted gains and their stability
@@ -83,7 +59,6 @@ def generate_stable_gains(M, D, max_iterations=10000, min_val=1, max_val=20):
     return None, None, None, None, max_iterations, history
 
 def visualize_search(history):
-    """Visualize the search process."""
     # Extract data from history
     iterations = len(history)
     max_reals = [entry['max_real'] for entry in history]

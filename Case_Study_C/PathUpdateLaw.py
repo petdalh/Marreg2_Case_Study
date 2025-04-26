@@ -2,18 +2,6 @@ import numpy as np
 
 class PathUpdateLaws:
     def __init__(self, update_law_type='tracking', mu=0.0, lam=1.0, epsilon=1e-3):
-        """
-        Parameters:
-        -----------
-        update_law_type : str
-            One of ['tracking', 'gradient', 'normalized_gradient', 'filtered_gradient']
-        mu : float
-            Gain parameter for gradient-based laws (μ ≥ 0)
-        lam : float
-            Filter gain for filtered gradient law (λ > 0)
-        epsilon : float
-            Small regularization constant (0 < ε ≪ 1)
-        """
         self.update_law_type = update_law_type
         self.mu = mu
         self.lam = lam
@@ -21,23 +9,6 @@ class PathUpdateLaws:
         self.omega_s = 0.0  # State for filtered gradient law
         
     def compute(self, V1_s, eta_d_s, v_s):
-        """
-        Compute ω_s based on selected update law
-        
-        Parameters:
-        -----------
-        V1_s : float
-            Path error term V₁ˢ(η,s) = -(η-η_d(s))ᵀη_dˢ(s)
-        eta_d_s : ndarray
-            Path derivative η_dˢ(s)
-        v_s : float
-            Nominal speed profile
-        
-        Returns:
-        --------
-        s_dot : float
-            Derivative of path parameter ṡ = v_s + ω_s
-        """
         if self.update_law_type == 'tracking':
             omega_s = 0.0
             

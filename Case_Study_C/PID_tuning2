@@ -1,0 +1,42 @@
+import numpy as np
+
+def pid_pole_placement(omega_b, zeta, m, d, k=0, K_m=0):
+    # Compute the natural frequency
+    omega_n = (1 / np.sqrt(1 - 2*zeta**2 + np.sqrt(4*zeta**4 - 4*zeta**2 + 2))) * omega_b
+    
+    # Compute the P gain
+    K_p = (m + K_m) * omega_n**2 - k
+    
+    # Compute the D gain
+    K_d = 2 * zeta * omega_n * (m + K_m) - d
+    
+    # Compute the I gain
+    K_i = (omega_n / 10) * K_p
+    
+    return K_p, K_i, K_d
+
+# For marine vessel dynamics where k=0 (no spring stiffness)
+def marine_vessel_pid_tuning(T_n, M, D, zeta=None):
+    if zeta is None:
+        zeta = np.eye(M.shape[0])
+    
+    # Natural frequency from natural period
+    omega_n = (2 * np.pi / T_n) * np.eye(M.shape[0])
+    
+    # PID gains
+    P_gain = (omega_n ** 2) @ M
+    D_gain = 2 * zeta @ omega_n @ M - D
+    I_gain = 0.1 * P_gain @ omega_n
+    
+    return P_gain, I_gain, D_gain
+
+if __name__ == "__main__":
+    # System parameters
+    D = np.array([[0.66, 0.0, 0.0], [0.0, 1.3, 2.8], [0.0, 0.0, 1.9]])
+    M = np.array([[16.0, 0.0, 0.0], [0.0, 24.0, 0.53], [0.0, 0.53, 2.8]])
+    T_n = 10.0  # Natural period
+
+    P_gain, I_gain, D_gain = marine_vessel_pid_tuning(T_n, M, D)
+    print("P Gain:\n", P_gain)
+    print("I Gain:\n", I_gain)
+    print("D Gain:\n", D_gain)
